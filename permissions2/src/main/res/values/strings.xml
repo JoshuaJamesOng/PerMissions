@@ -1,15 +1,26 @@
 <resources>
     <string name="app_name">PerMissions</string>
 
-    <string name="permissions_explanation_calendar">The Calendar permission is required for this action. Denying permission will result in the action not running</string>
-    <string name="permissions_explanation_camera">The Camera permission is required for this action. Denying permission will result in the action not running</string>
-    <string name="permissions_explanation_contacts">The Contacts permission is required for this action. Denying permission will result in the action not running</string>
-    <string name="permissions_explanation_location">The Location permission is required for this action. Denying permission will result in the action not running</string>
-    <string name="permissions_explanation_microphone">The Microphone permission is required for this action. Denying permission will result in the action not running</string>
-    <string name="permissions_explanation_phone">The Phone permission is required for this action. Denying permission will result in the action not running</string>
-    <string name="permissions_explanation_sensors">The Sensors permission is required for this action. Denying permission will result in the action not running</string>
-    <string name="permissions_explanation_sms">The SMS permission is required for this action. Denying permission will result in the action not running</string>
-    <string name="permissions_explanation_storage">The Storage permission is required for this action. Denying permission will result in the action not running</string>
-    <string name="permissions_explanation_unknown">A permission is required for this action. Denying permission will result in the action not running</string>
+    <string name="permissions_explanation_calendar">The Calendar permission is required for this action. Denying will result in the action not running</string>
+    <string name="permissions_explanation_camera">The Camera permission is required for this action. Denying will result in the action not running</string>
+    <string name="permissions_explanation_contacts">The Contacts permission is required for this action. Denying will result in the action not running</string>
+    <string name="permissions_explanation_location">The Location permission is required for this action. Denying will result in the action not running</string>
+    <string name="permissions_explanation_microphone">The Microphone permission is required for this action. Denying will result in the action not running</string>
+    <string name="permissions_explanation_phone">The Phone permission is required for this action. Denying will result in the action not running</string>
+    <string name="permissions_explanation_sensors">The Sensors permission is required for this action. Denying will result in the action not running</string>
+    <string name="permissions_explanation_sms">The SMS permission is required for this action. Denying will result in the action not running</string>
+    <string name="permissions_explanation_storage">The Storage permission is required for this action. Denying will result in the action not running</string>
+    <string name="permissions_explanation_unknown">A permission is required for this action. Denying will result in the action not running</string>
+
+    <string name="permissions_denied_calendar">This action requires the Calendar permission. Please enable in Settings > Apps</string>
+    <string name="permissions_denied_camera">This action requires the Camera permission. Please enable in Settings > Apps</string>
+    <string name="permissions_denied_contacts">This action requires the Contacts permission. Please enable in Settings > Apps</string>
+    <string name="permissions_denied_location">This action requires the Location permission. Please enable in Settings > Apps</string>
+    <string name="permissions_denied_microphone">This action requires the Microphone permission. Please enable in Settings > Apps</string>
+    <string name="permissions_denied_phone">This action requires the Phone permission. Please enable in Settings > Apps</string>
+    <string name="permissions_denied_sensors">This action requires the Sensors permission. Please enable in Settings > Apps</string>
+    <string name="permissions_denied_sms">This action requires the SMS permission. Please enable in Settings > Apps</string>
+    <string name="permissions_denied_storage">This action requires the Storage permission. Please enable in Settings > Apps</string>
+    <string name="permissions_denied_unknown">This action requires a permission. Please enable in Settings > Apps</string>
 
 </resources>

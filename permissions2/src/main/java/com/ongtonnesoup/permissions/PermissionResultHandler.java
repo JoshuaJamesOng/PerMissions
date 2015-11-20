@@ -11,4 +11,6 @@ public interface PermissionResultHandler {
 
     String getExplantionForPermission(String permission);
 
+    String getDeniedForPermission(String permission);
+
 }

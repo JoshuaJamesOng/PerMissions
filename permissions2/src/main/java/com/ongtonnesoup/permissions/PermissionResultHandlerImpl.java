@@ -28,7 +28,7 @@ public class PermissionResultHandlerImpl implements PermissionResultHandler {
         // Show dialog gracefully explaining why nothing is happening
         AlertDialog dialog = new AlertDialog.Builder(context).create();
         dialog.setTitle("Permission Denied");
-        dialog.setMessage("The following action can't complete without permissions");
+        dialog.setMessage(getDeniedForPermission(permissions[0]));
         dialog.setCanceledOnTouchOutside(false);
         dialog.setButton(DialogInterface.BUTTON_POSITIVE, context.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
             @Override
@@ -117,6 +117,61 @@ public class PermissionResultHandlerImpl implements PermissionResultHandler {
         }
 
         return explanation;
+    }
+
+    @Override
+    public String getDeniedForPermission(String permission) {
+        String denied;
+
+        switch (permission) {
+            case Manifest.permission.READ_CALENDAR:
+            case Manifest.permission.WRITE_CALENDAR:
+                denied = resources.getString(R.string.permissions_denied_calendar);
+                break;
+            case Manifest.permission.CAMERA:
+                denied = resources.getString(R.string.permissions_denied_camera);
+                break;
+            case Manifest.permission.READ_CONTACTS:
+            case Manifest.permission.WRITE_CONTACTS:
+            case Manifest.permission.GET_ACCOUNTS:
+                denied = resources.getString(R.string.permissions_denied_contacts);
+                break;
+            case Manifest.permission.ACCESS_FINE_LOCATION:
+            case Manifest.permission.ACCESS_COARSE_LOCATION:
+                denied = resources.getString(R.string.permissions_denied_location);
+                break;
+            case Manifest.permission.RECORD_AUDIO:
+                denied = resources.getString(R.string.permissions_denied_microphone);
+                break;
+            case Manifest.permission.READ_PHONE_STATE:
+            case Manifest.permission.CALL_PHONE:
+            case Manifest.permission.READ_CALL_LOG:
+            case Manifest.permission.WRITE_CALL_LOG:
+            case Manifest.permission.ADD_VOICEMAIL:
+            case Manifest.permission.USE_SIP:
+            case Manifest.permission.PROCESS_OUTGOING_CALLS:
+                denied = resources.getString(R.string.permissions_denied_phone);
+                break;
+            case Manifest.permission.BODY_SENSORS:
+                denied = resources.getString(R.string.permissions_denied_sensors);
+                break;
+            case Manifest.permission.SEND_SMS:
+            case Manifest.permission.RECEIVE_SMS:
+            case Manifest.permission.READ_SMS:
+            case Manifest.permission.RECEIVE_WAP_PUSH:
+            case Manifest.permission.RECEIVE_MMS:
+                denied = resources.getString(R.string.permissions_denied_sms);
+                break;
+            case Manifest.permission.READ_EXTERNAL_STORAGE:
+            case Manifest.permission.WRITE_EXTERNAL_STORAGE:
+                denied = resources.getString(R.string.permissions_denied_storage);
+                break;
+            default:
+                denied = resources.getString(R.string.permissions_denied_unknown);
+                break;
+        }
+
+        return denied;
     }
 
 }
