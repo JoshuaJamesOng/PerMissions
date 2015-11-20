@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">PerMissions</string>
+
+    <string name="permissions_explanation_calendar">The Calendar permission is required for this action. Denying permission will result in the action not running</string>
+    <string name="permissions_explanation_camera">The Camera permission is required for this action. Denying permission will result in the action not running</string>
+    <string name="permissions_explanation_contacts">The Contacts permission is required for this action. Denying permission will result in the action not running</string>
+    <string name="permissions_explanation_location">The Location permission is required for this action. Denying permission will result in the action not running</string>
+    <string name="permissions_explanation_microphone">The Microphone permission is required for this action. Denying permission will result in the action not running</string>
+    <string name="permissions_explanation_phone">The Phone permission is required for this action. Denying permission will result in the action not running</string>
+    <string name="permissions_explanation_sensors">The Sensors permission is required for this action. Denying permission will result in the action not running</string>
+    <string name="permissions_explanation_sms">The SMS permission is required for this action. Denying permission will result in the action not running</string>
+    <string name="permissions_explanation_storage">The Storage permission is required for this action. Denying permission will result in the action not running</string>
+    <string name="permissions_explanation_unknown">A permission is required for this action. Denying permission will result in the action not running</string>
+
 </resources>

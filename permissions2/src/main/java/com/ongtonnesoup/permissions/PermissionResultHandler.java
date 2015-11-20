@@ -9,4 +9,6 @@ public interface PermissionResultHandler {
 
     void onPermissionExplain(String[] permissions, final Runnable flow);
 
+    String getExplantionForPermission(String permission);
+
 }

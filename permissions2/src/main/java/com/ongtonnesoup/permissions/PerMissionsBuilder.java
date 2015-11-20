@@ -32,7 +32,6 @@ public class PerMissionsBuilder {
             frag = new PerMissions();
             activity.getSupportFragmentManager().beginTransaction().add(frag, PerMissions.TAG).commit();
         }
-
         this.context = context;
         this.permissionFrag = frag;
         this.bus = bus;
@@ -80,7 +79,7 @@ public class PerMissionsBuilder {
         }
 
         if (callback == null) {
-            callback = new PermissionResultHandlerImpl(context, handler);
+            callback = new PermissionResultHandlerImpl(context, context.getResources(), handler);
         }
 
         return permissionFrag.bus(bus).handler(handler).callback(callback);
