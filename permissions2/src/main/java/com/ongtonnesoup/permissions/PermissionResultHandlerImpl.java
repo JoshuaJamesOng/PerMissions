@@ -58,8 +58,13 @@ public class PermissionResultHandlerImpl implements PermissionResultHandler {
 
     private String getExplanationString(String[] permissions) {
         StringBuilder stringBuilder = new StringBuilder();
-        for (String permission : permissions) {
+        for (int i = 0; i < permissions.length; i++) {
+            String permission = permissions[i];
             stringBuilder.append(getExplantionForPermission(permission));
+
+            if (i < permissions.length - 1) {
+                stringBuilder.append(". ");
+            }
         }
         return stringBuilder.toString();
     }

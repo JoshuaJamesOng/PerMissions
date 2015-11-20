@@ -42,7 +42,7 @@ public class DemoFragment extends Fragment {
     @OnClick(R.id.addContact)
     public void onButtonClick() {
         Log.d("JJO", "Button clicked");
-        bus.post(new PermissionEvent(new String[]{Manifest.permission.WRITE_CONTACTS}, new Runnable() {
+        bus.post(new PermissionEvent(new String[]{Manifest.permission.WRITE_CONTACTS, Manifest.permission.READ_EXTERNAL_STORAGE}, new Runnable() {
             @Override
             public void run() {
                 Log.d("JJO", "Hello permissions");
