@@ -84,12 +84,13 @@ public class PerMissions extends Fragment {
             Log.d(TAG, "Permission request already granted");
             callback.onPermissionGranted(permissions, flow);
         } else {
+            String[] permissionsToRequest = PermissionUtil.deniedPermissions(getActivity(), permissions);
             if (PermissionUtil.showExplanation(getActivity(), permissions) && !isAfterExplanation) {
                 Log.d(TAG, "Permission request should show explanation");
-                callback.onPermissionExplain(permissions, flow);
+                callback.onPermissionExplain(permissionsToRequest, flow);
             } else {
-                flows.put(Arrays.hashCode(permissions), flow);
-                requestPermissions(permissions, REQUEST_PERMISSIONS);
+                flows.put(Arrays.hashCode(permissionsToRequest), flow);
+                requestPermissions(permissionsToRequest, REQUEST_PERMISSIONS);
             }
 
         }

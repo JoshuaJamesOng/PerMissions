@@ -46,6 +46,18 @@ public abstract class PermissionUtil {
         return grantResults.length > 0;
     }
 
+    public static String[] deniedPermissions(Activity activity, String[] permissions) {
+        // Verify that each required permission has been granted, otherwise return false.
+        List<String> denied = new ArrayList<>();
+        for (String permission : permissions) {
+            if (!hasSelfPermission(activity, permission)) {
+                denied.add(permission);
+            }
+        }
+
+        return denied.toArray(new String[denied.size()]);
+    }
+
     public static String[] deniedPermissions(String[] permissions, int[] grantResults) {
         // Verify that each required permission has been granted, otherwise return false.
         List<String> denied = new ArrayList<>();
