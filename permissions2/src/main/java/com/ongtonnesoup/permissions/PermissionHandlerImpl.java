@@ -4,7 +4,7 @@ import com.squareup.otto.Subscribe;
 
 public class PermissionHandlerImpl implements PermissionHandler {
 
-    private PerMissions perMissions;
+    private final PerMissions perMissions;
 
     public PermissionHandlerImpl(PerMissions perMissions) {
         this.perMissions = perMissions;

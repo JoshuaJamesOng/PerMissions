@@ -9,8 +9,8 @@ import android.content.res.Resources;
 public class PermissionResultHandlerImpl implements PermissionResultHandler {
 
     private final Context context;
-    private Resources resources;
     private final PermissionHandler handler;
+    private final Resources resources;
 
     public PermissionResultHandlerImpl(Context context, Resources resources, PermissionHandler handler) {
         this.context = context;

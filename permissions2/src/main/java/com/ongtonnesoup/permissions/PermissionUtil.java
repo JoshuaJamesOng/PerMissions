@@ -100,10 +100,7 @@ public abstract class PermissionUtil {
      */
     public static boolean hasSelfPermission(Activity activity, String permission) {
         // Below Android M all permissions are granted at install time and are already available.
-        if (!isMNC()) {
-            return true;
-        }
-        return ActivityCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED;
+        return !isMNC() || ActivityCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED;
     }
 
     /**
