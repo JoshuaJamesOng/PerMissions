@@ -34,7 +34,6 @@ public class PermissionResultHandlerImpl implements PermissionResultHandler {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
-                handler.denyRequest(permissions);
             }
         });
         dialog.show();
@@ -50,7 +49,7 @@ public class PermissionResultHandlerImpl implements PermissionResultHandler {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
-                handler.handlePermissionRequest(permissions, flow);
+                handler.handlePermissionRequest(permissions, flow, true);
             }
         });
         dialog.show();

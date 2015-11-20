@@ -2,8 +2,6 @@ package com.ongtonnesoup.permissions;
 
 import com.squareup.otto.Subscribe;
 
-import java.util.Arrays;
-
 public class PermissionHandlerImpl implements PermissionHandler {
 
     private PerMissions perMissions;
@@ -21,12 +19,12 @@ public class PermissionHandlerImpl implements PermissionHandler {
 
     @Override
     public void handlePermissionRequest(String[] permissions, Runnable flow) {
-        perMissions.getPermission(permissions, flow);
+        perMissions.getPermission(permissions, flow, false);
     }
 
     @Override
-    public void denyRequest(String[] permissions) {
-        perMissions.removeFlow(Arrays.hashCode(permissions));
+    public void handlePermissionRequest(String[] permissions, Runnable flow, boolean isAfterExplanation) {
+        perMissions.getPermission(permissions, flow, isAfterExplanation);
     }
 
 }

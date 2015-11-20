@@ -16,7 +16,7 @@ public class PerMissions extends Fragment {
     private static final int REQUEST_PERMISSIONS = 10;
 
     private Bus bus;
-    private HashMap<Integer, Runnable> mFlows;
+    private HashMap<Integer, Runnable> flows;
     private PermissionHandler handler;
     private PermissionResultHandler callback;
 
@@ -55,7 +55,7 @@ public class PerMissions extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        mFlows = new HashMap<>();
+        flows = new HashMap<>();
     }
 
     @Override
@@ -78,16 +78,17 @@ public class PerMissions extends Fragment {
      * @param permissions Permission to request
      * @param flow        Code to execute if granted
      */
-    public void getPermission(String[] permissions, Runnable flow) {
+    public void getPermission(String[] permissions, Runnable flow, boolean isAfterExplanation) {
 
         if (PermissionUtil.hasSelfPermission(getActivity(), permissions)) {
+            Log.d(TAG, "Permission request already granted");
             callback.onPermissionGranted(permissions, flow);
         } else {
-            if (PermissionUtil.showExplanation(getActivity(), permissions) && !mFlows.containsKey(Arrays.hashCode(permissions))) {
-                mFlows.put(Arrays.hashCode(permissions), flow);
+            if (PermissionUtil.showExplanation(getActivity(), permissions) && !isAfterExplanation) {
+                Log.d(TAG, "Permission request should show explanation");
                 callback.onPermissionExplain(permissions, flow);
             } else {
-                mFlows.put(Arrays.hashCode(permissions), flow);
+                flows.put(Arrays.hashCode(permissions), flow);
                 requestPermissions(permissions, REQUEST_PERMISSIONS);
             }
 
@@ -102,26 +103,18 @@ public class PerMissions extends Fragment {
                                            @NonNull int[] grantResults) {
         if (requestCode == REQUEST_PERMISSIONS) {
             if (PermissionUtil.verifyPermissions(grantResults)) {
-                Runnable flow = mFlows.get(Arrays.hashCode(permissions));
-                removeFlow(Arrays.hashCode(permissions));
+                Log.d(TAG, "Permission request granted.");
+                Runnable flow = flows.get(Arrays.hashCode(permissions));
+                flows.remove(Arrays.hashCode(permissions));
                 callback.onPermissionGranted(permissions, flow);
             } else {
-                Log.i("Permissions", "Permission was NOT granted.");
+                Log.d(TAG, "Permission request was NOT granted.");
+                flows.remove(Arrays.hashCode(permissions));
                 callback.onPermissionDenied(PermissionUtil.deniedPermissions(permissions, grantResults));
             }
-
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
-    }
-
-    public boolean removeFlow(int key) {
-        if (mFlows.containsKey(key)) {
-            mFlows.remove(key);
-            return true;
-        }
-
-        return false;
     }
 
 }
