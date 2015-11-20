@@ -40,7 +40,7 @@ public abstract class PermissionUtil {
                 return false;
             }
         }
-        return true;
+        return grantResults.length > 0;
     }
 
     /**
