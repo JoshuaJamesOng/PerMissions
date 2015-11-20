@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/PerMissions.iml" filepath="$PROJECT_DIR$/PerMissions.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/permissions2/permissions2.iml" filepath="$PROJECT_DIR$/permissions2/permissions2.iml" />
     </modules>
   </component>
 </project>

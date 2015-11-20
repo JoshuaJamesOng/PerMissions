@@ -1,4 +1,4 @@
-package com.ongtonnesoup.permissions.demo;
+package com.ongtonnesoup.permissionsdemo.demo;
 
 import com.squareup.otto.Bus;
 

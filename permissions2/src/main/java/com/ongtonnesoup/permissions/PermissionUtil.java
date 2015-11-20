@@ -14,11 +14,12 @@
 * limitations under the License.
 */
 
-package com.ongtonnesoup.permissions.lib;
+package com.ongtonnesoup.permissions;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.support.v4.app.ActivityCompat;
 
 /**
  * Utility class that wraps access to the runtime permissions API in M and provides basic helper
@@ -56,7 +57,7 @@ public abstract class PermissionUtil {
 
         // Verify that all required permissions have been granted
         for (String permission : permissions) {
-            if (activity.checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED) {
                 return false;
             }
         }
@@ -75,7 +76,21 @@ public abstract class PermissionUtil {
         if (!isMNC()) {
             return true;
         }
-        return activity.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
+        return ActivityCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    /**
+     * Returns true if the user has denied any of the requested permissions
+     */
+    public static boolean showExplanation(Activity activity, String[] permissions) {
+        boolean showExplanation = false;
+        for (String permission : permissions) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)) {
+                showExplanation = true;
+                break;
+            }
+        }
+        return showExplanation;
     }
 
     public static boolean isMNC() {

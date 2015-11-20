@@ -1,4 +1,4 @@
-package com.ongtonnesoup.permissionsdemo;
+package com.ongtonnesoup.permissions;
 
 import org.junit.Test;
 

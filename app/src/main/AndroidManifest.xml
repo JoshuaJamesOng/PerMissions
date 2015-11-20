@@ -1,18 +1,18 @@
 <manifest
-    package="com.ongtonnesoup.permissions"
+    package="com.ongtonnesoup.permissionsdemo"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
 
     <application
-        android:name=".demo.DemoApplication"
+        android:name="com.ongtonnesoup.permissionsdemo.demo.DemoApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".demo.DemoActivity">
+        <activity android:name="com.ongtonnesoup.permissionsdemo.demo.DemoActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
