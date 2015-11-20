@@ -25,8 +25,12 @@ public class PerMissions extends Fragment {
     }
 
     /**
+     * Set a custom PermissionHandler to call PerMissions
+     * <p/>
+     * If not called, PerMissions will use a default implementation
+     *
      * @param handler
-     * @return
+     * @return builder
      */
     public PerMissions handler(PermissionHandler handler) {
         this.handler = handler;
@@ -34,8 +38,10 @@ public class PerMissions extends Fragment {
     }
 
     /**
-     * @param bus
-     * @return
+     * Set a bus for the default PermissionHandler to subscribe to PermissionEvents
+     *
+     * @param bus Bus PermissionEvents are posted to
+     * @return builder
      */
     public PerMissions bus(Bus bus) {
         this.bus = bus;
@@ -43,8 +49,12 @@ public class PerMissions extends Fragment {
     }
 
     /**
+     * Set a PermissionResultHandler to handle permission request results
+     * <p/>
+     * If not called, PerMissions will handle UI feedback
+     *
      * @param callback
-     * @return
+     * @return builder
      */
     public PerMissions callback(PermissionResultHandler callback) {
         this.callback = callback;
@@ -75,7 +85,9 @@ public class PerMissions extends Fragment {
     }
 
     /**
-     * @param permissions Permission to request
+     * Request permission or show explanations, if necessary
+     *
+     * @param permissions Permissions to request
      * @param flow        Code to execute if granted
      */
     public void getPermission(String[] permissions, Runnable flow, boolean isAfterExplanation) {
@@ -97,7 +109,11 @@ public class PerMissions extends Fragment {
     }
 
     /**
-     * Callback received when a permissions request has been completed.
+     * Callback received when user selects dialog option
+     *
+     * @param requestCode  Permissions request code
+     * @param permissions  Permissions requested
+     * @param grantResults Permissions granted
      */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,

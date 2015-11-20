@@ -39,17 +39,23 @@ public class PerMissionsBuilder {
     }
 
     /**
+     * Set a custom PermissionHandler to call PerMissions
+     * <p/>
+     * If not called, PerMissions will use a default implementation
+     *
      * @param handler
-     * @return
+     * @return builder
      */
     public PerMissionsBuilder handler(PermissionHandler handler) {
         return handler(handler, null);
     }
 
     /**
+     * Set default PermissionHandler and bus events will be posted on
+     *
      * @param handler
      * @param bus
-     * @return
+     * @return builder
      */
     private PerMissionsBuilder handler(PermissionHandler handler, Bus bus) {
         this.handler = handler;
@@ -58,8 +64,12 @@ public class PerMissionsBuilder {
     }
 
     /**
+     * Set a PermissionResultHandler to handle permission request results
+     * <p/>
+     * If not called, PerMissions will handle UI feedback
+     *
      * @param callback
-     * @return
+     * @return builder
      */
     public PerMissionsBuilder callback(PermissionResultHandler callback) {
         this.callback = callback;
@@ -67,7 +77,9 @@ public class PerMissionsBuilder {
     }
 
     /**
-     * @return
+     * Build PerMissions fragment
+     *
+     * @return PerMissions
      */
     public PerMissions build() {
         if (handler == null && bus == null) {

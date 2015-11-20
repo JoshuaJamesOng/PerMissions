@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">PerMissions</string>
 
+    <string name="permissions_title_explanation">Permission Required</string>
+    <string name="permission_title_denied">Permission Denied</string>
+
     <string name="permissions_explanation_calendar">The Calendar permission is required for this action. Denying will result in the action not running</string>
     <string name="permissions_explanation_camera">The Camera permission is required for this action. Denying will result in the action not running</string>
     <string name="permissions_explanation_contacts">The Contacts permission is required for this action. Denying will result in the action not running</string>

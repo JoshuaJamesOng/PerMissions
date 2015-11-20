@@ -25,9 +25,8 @@ public class PermissionResultHandlerImpl implements PermissionResultHandler {
 
     @Override
     public void onPermissionDenied(final String[] permissions) {
-        // Show dialog gracefully explaining why nothing is happening
         AlertDialog dialog = new AlertDialog.Builder(context).create();
-        dialog.setTitle("Permission Denied");
+        dialog.setTitle(resources.getString(R.string.permission_title_denied));
         dialog.setMessage(getDeniedString(permissions));
         dialog.setCanceledOnTouchOutside(false);
         dialog.setButton(DialogInterface.BUTTON_POSITIVE, context.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
@@ -42,7 +41,7 @@ public class PermissionResultHandlerImpl implements PermissionResultHandler {
     @Override
     public void onPermissionExplain(final String[] permissions, final Runnable flow) {
         AlertDialog dialog = new AlertDialog.Builder(context).create();
-        dialog.setTitle("Permission Required");
+        dialog.setTitle(resources.getString(R.string.permissions_title_explanation));
         dialog.setMessage(getExplanationString(permissions));
         dialog.setCanceledOnTouchOutside(false);
         dialog.setButton(DialogInterface.BUTTON_POSITIVE, context.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
