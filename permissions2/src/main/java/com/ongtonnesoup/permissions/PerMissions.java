@@ -1,6 +1,5 @@
 package com.ongtonnesoup.permissions;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -80,16 +79,18 @@ public class PerMissions extends Fragment {
      * @param flow        Code to execute if granted
      */
     public void getPermission(String[] permissions, Runnable flow) {
-        mFlows.put(Arrays.hashCode(permissions), flow);
 
         if (PermissionUtil.hasSelfPermission(getActivity(), permissions)) {
             callback.onPermissionGranted(permissions, flow);
         } else {
-            if (PermissionUtil.showExplanation(getActivity(), permissions)) {
+            if (PermissionUtil.showExplanation(getActivity(), permissions) && !mFlows.containsKey(Arrays.hashCode(permissions))) {
+                mFlows.put(Arrays.hashCode(permissions), flow);
                 callback.onPermissionExplain(permissions, flow);
             } else {
+                mFlows.put(Arrays.hashCode(permissions), flow);
                 requestPermissions(permissions, REQUEST_PERMISSIONS);
             }
+
         }
     }
 
@@ -102,7 +103,7 @@ public class PerMissions extends Fragment {
         if (requestCode == REQUEST_PERMISSIONS) {
             if (PermissionUtil.verifyPermissions(grantResults)) {
                 Runnable flow = mFlows.get(Arrays.hashCode(permissions));
-                mFlows.remove(flow);
+                removeFlow(Arrays.hashCode(permissions));
                 callback.onPermissionGranted(permissions, flow);
             } else {
                 Log.i("Permissions", "Permission was NOT granted.");
@@ -114,5 +115,13 @@ public class PerMissions extends Fragment {
         }
     }
 
+    public boolean removeFlow(int key) {
+        if (mFlows.containsKey(key)) {
+            mFlows.remove(key);
+            return true;
+        }
+
+        return false;
+    }
 
 }

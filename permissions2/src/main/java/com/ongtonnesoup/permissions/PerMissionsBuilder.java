@@ -80,7 +80,7 @@ public class PerMissionsBuilder {
         }
 
         if (callback == null) {
-            callback = new PermissionResultHandlerImpl(context);
+            callback = new PermissionResultHandlerImpl(context, handler);
         }
 
         return permissionFrag.bus(bus).handler(handler).callback(callback);
