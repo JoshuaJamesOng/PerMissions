@@ -107,7 +107,7 @@ public class PerMissions extends Fragment {
                 callback.onPermissionGranted(permissions, flow);
             } else {
                 Log.i("Permissions", "Permission was NOT granted.");
-                callback.onPermissionDenied(permissions);
+                callback.onPermissionDenied(PermissionUtil.deniedPermissions(permissions, grantResults));
             }
 
         } else {

@@ -28,7 +28,7 @@ public class PermissionResultHandlerImpl implements PermissionResultHandler {
         // Show dialog gracefully explaining why nothing is happening
         AlertDialog dialog = new AlertDialog.Builder(context).create();
         dialog.setTitle("Permission Denied");
-        dialog.setMessage(getDeniedForPermission(permissions[0]));
+        dialog.setMessage(getDeniedString(permissions));
         dialog.setCanceledOnTouchOutside(false);
         dialog.setButton(DialogInterface.BUTTON_POSITIVE, context.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
             @Override
@@ -56,11 +56,24 @@ public class PermissionResultHandlerImpl implements PermissionResultHandler {
         dialog.show();
     }
 
+    private String getDeniedString(String[] permissions) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < permissions.length; i++) {
+            String permission = permissions[i];
+            stringBuilder.append(getDeniedForPermission(permission));
+
+            if (i < permissions.length - 1) {
+                stringBuilder.append(". ");
+            }
+        }
+        return stringBuilder.toString();
+    }
+
     private String getExplanationString(String[] permissions) {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < permissions.length; i++) {
             String permission = permissions[i];
-            stringBuilder.append(getExplantionForPermission(permission));
+            stringBuilder.append(getExplanationForPermission(permission));
 
             if (i < permissions.length - 1) {
                 stringBuilder.append(". ");
@@ -70,7 +83,7 @@ public class PermissionResultHandlerImpl implements PermissionResultHandler {
     }
 
     @Override
-    public String getExplantionForPermission(String permission) {
+    public String getExplanationForPermission(String permission) {
         String explanation;
 
         switch (permission) {

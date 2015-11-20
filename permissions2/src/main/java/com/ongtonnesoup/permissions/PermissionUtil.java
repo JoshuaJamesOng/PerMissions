@@ -21,6 +21,9 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Utility class that wraps access to the runtime permissions API in M and provides basic helper
  * methods.
@@ -41,6 +44,18 @@ public abstract class PermissionUtil {
             }
         }
         return grantResults.length > 0;
+    }
+
+    public static String[] deniedPermissions(String[] permissions, int[] grantResults) {
+        // Verify that each required permission has been granted, otherwise return false.
+        List<String> denied = new ArrayList<>();
+        for (int i = 0; i < grantResults.length; i++) {
+            if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                denied.add(permissions[i]);
+            }
+        }
+
+        return denied.toArray(new String[denied.size()]);
     }
 
     /**
