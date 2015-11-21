@@ -28,16 +28,6 @@ bus.post(new PermissionEvent(new String[]{Manifest.permission.WRITE_EXTERNAL_STO
 
 PerMissions will handle displaying dialogs for you when permission is not granted, allowing you to reduce boilerplate code
 
-
-```
-bus.post(new PermissionEvent(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, new PerMissionsFlow() {
-      @Override
-      public void onGranted() throws SecurityException {
-        backupService.backupToExternalStorage();
-      }
-}));
-```
-
 ## Example Dialogs
 ![Image of explanation dialog](/attachments/explanation.png)
 
