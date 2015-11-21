@@ -20,7 +20,9 @@ public class PermissionResultHandlerImpl implements PermissionResultHandler {
 
     @Override
     public void onPermissionGranted(String[] permissions, Runnable flow) {
-        flow.run();
+        if (flow != null) {
+            flow.run();
+        }
     }
 
     @Override
