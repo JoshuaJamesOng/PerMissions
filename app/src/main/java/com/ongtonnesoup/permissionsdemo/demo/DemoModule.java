@@ -16,4 +16,9 @@ public class DemoModule {
         return new Bus();
     }
 
+    @Provides
+    public DemoFragmentPresenter provideDemoFragmentPresenter() {
+        return new DemoFragmentPresenter();
+    }
+
 }

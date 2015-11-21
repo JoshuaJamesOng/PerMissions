@@ -11,9 +11,23 @@
         android:text="Demo Fragment"/>
 
     <Button
+        android:id="@+id/viewContacts"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:text="View Contacts"/>
+
+    <Button
         android:id="@+id/addContact"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:text="Add Contact"/>
+
+    <Button
+        android:id="@+id/takePicture"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:text="Take Picture"/>
+
+
 
 </LinearLayout>

@@ -25,10 +25,15 @@ public class DemoFragment extends Fragment {
     @Inject
     Bus bus;
 
+    @Inject
+    DemoFragmentPresenter presenter;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        Log.d(TAG, "create clicked");
         super.onCreate(savedInstanceState);
         ((DemoApplication) getActivity().getApplication()).getComponent().inject(this);
+        presenter.setActivity(getActivity());
     }
 
     @Nullable
@@ -39,13 +44,52 @@ public class DemoFragment extends Fragment {
         return view;
     }
 
-    @OnClick(R.id.addContact)
-    public void onButtonClick() {
-        Log.d("JJO", "Button clicked");
-        bus.post(new PermissionEvent(new String[]{Manifest.permission.WRITE_CONTACTS, Manifest.permission.READ_EXTERNAL_STORAGE}, new Runnable() {
+    @Override
+    public void onDetach() {
+        if (presenter != null) {
+            presenter.setActivity(null);
+        }
+        super.onDetach();
+    }
+
+    @OnClick(R.id.viewContacts)
+    public void onViewContactsButtonClick() {
+        bus.post(new PermissionEvent(new String[]{Manifest.permission.READ_CONTACTS}, new Runnable() {
             @Override
             public void run() {
-                Log.d("JJO", "Hello permissions");
+                try {
+                    presenter.onViewContacts();
+                } catch (SecurityException e) {
+                    throw e;
+                }
+            }
+        }));
+    }
+
+    @OnClick(R.id.addContact)
+    public void onContactButtonClick() {
+        bus.post(new PermissionEvent(new String[]{Manifest.permission.WRITE_CONTACTS}, new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    presenter.onAddContact();
+                } catch (SecurityException e) {
+                    throw e;
+                }
+            }
+        }));
+    }
+
+    @OnClick(R.id.takePicture)
+    public void onPictureButtonClick() {
+        bus.post(new PermissionEvent(new String[]{Manifest.permission.CAMERA}, new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    presenter.onTakePhoto();
+                } catch (SecurityException e) {
+                    throw e;
+                }
             }
         }));
     }
