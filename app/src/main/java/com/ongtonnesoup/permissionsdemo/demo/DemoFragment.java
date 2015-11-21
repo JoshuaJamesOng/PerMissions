@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ongtonnesoup.permissions.PerMissionsFlow;
 import com.ongtonnesoup.permissions.PermissionEvent;
 import com.ongtonnesoup.permissionsdemo.R;
 import com.squareup.otto.Bus;
@@ -54,42 +55,30 @@ public class DemoFragment extends Fragment {
 
     @OnClick(R.id.viewContacts)
     public void onViewContactsButtonClick() {
-        bus.post(new PermissionEvent(new String[]{Manifest.permission.READ_CONTACTS}, new Runnable() {
+        bus.post(new PermissionEvent(new String[]{Manifest.permission.READ_CONTACTS}, new PerMissionsFlow() {
             @Override
-            public void run() {
-                try {
-                    presenter.onViewContacts();
-                } catch (SecurityException e) {
-                    throw e;
-                }
+            public void onGranted() throws SecurityException {
+                presenter.onViewContacts();
             }
         }));
     }
 
     @OnClick(R.id.addContact)
     public void onContactButtonClick() {
-        bus.post(new PermissionEvent(new String[]{Manifest.permission.WRITE_CONTACTS}, new Runnable() {
+        bus.post(new PermissionEvent(new String[]{Manifest.permission.WRITE_CONTACTS}, new PerMissionsFlow() {
             @Override
-            public void run() {
-                try {
-                    presenter.onAddContact();
-                } catch (SecurityException e) {
-                    throw e;
-                }
+            public void onGranted() throws SecurityException {
+                presenter.onAddContact();
             }
         }));
     }
 
     @OnClick(R.id.takePicture)
     public void onPictureButtonClick() {
-        bus.post(new PermissionEvent(new String[]{Manifest.permission.CAMERA}, new Runnable() {
+        bus.post(new PermissionEvent(new String[]{Manifest.permission.CAMERA}, new PerMissionsFlow() {
             @Override
-            public void run() {
-                try {
-                    presenter.onTakePhoto();
-                } catch (SecurityException e) {
-                    throw e;
-                }
+            public void onGranted() throws SecurityException {
+                presenter.onTakePhoto();
             }
         }));
     }
