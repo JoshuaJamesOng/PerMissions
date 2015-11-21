@@ -6,13 +6,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 
-public class PermissionResultHandlerImpl implements PermissionResultHandler {
+public class PerMissionsResultHandlerImpl implements PerMissionsResultHandler {
 
     private final Context context;
-    private final PermissionHandler handler;
+    private final PerMissionsHandler handler;
     private final Resources resources;
 
-    public PermissionResultHandlerImpl(Context context, Resources resources, PermissionHandler handler) {
+    public PerMissionsResultHandlerImpl(Context context, Resources resources, PerMissionsHandler handler) {
         this.context = context;
         this.resources = resources;
         this.handler = handler;

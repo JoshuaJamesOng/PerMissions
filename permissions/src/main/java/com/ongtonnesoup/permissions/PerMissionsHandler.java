@@ -1,6 +1,6 @@
 package com.ongtonnesoup.permissions;
 
-public interface PermissionHandler {
+public interface PerMissionsHandler {
 
     /**
      * Request permissions or show explanations, if necessary
@@ -12,7 +12,7 @@ public interface PermissionHandler {
 
     /**
      * @param isAfterExplanation If true, will not bother showing explanation
-     * @see PermissionHandler#handlePermissionRequest(String[], Runnable)
+     * @see PerMissionsHandler#handlePermissionRequest(String[], Runnable)
      */
     void handlePermissionRequest(String[] permissions, Runnable flow, boolean isAfterExplanation);
 

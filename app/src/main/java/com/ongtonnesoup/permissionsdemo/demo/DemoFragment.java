@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ongtonnesoup.permissions.PerMissionsFlow;
-import com.ongtonnesoup.permissions.PermissionEvent;
+import com.ongtonnesoup.permissions.PerMissionsEvent;
 import com.ongtonnesoup.permissionsdemo.R;
 import com.squareup.otto.Bus;
 
@@ -55,7 +55,7 @@ public class DemoFragment extends Fragment {
 
     @OnClick(R.id.viewContacts)
     public void onViewContactsButtonClick() {
-        bus.post(new PermissionEvent(new String[]{Manifest.permission.READ_CONTACTS}, new PerMissionsFlow() {
+        bus.post(new PerMissionsEvent(new String[]{Manifest.permission.READ_CONTACTS}, new PerMissionsFlow() {
             @Override
             public void onGranted() throws SecurityException {
                 presenter.onViewContacts();
@@ -65,7 +65,7 @@ public class DemoFragment extends Fragment {
 
     @OnClick(R.id.addContact)
     public void onContactButtonClick() {
-        bus.post(new PermissionEvent(new String[]{Manifest.permission.WRITE_CONTACTS}, new PerMissionsFlow() {
+        bus.post(new PerMissionsEvent(new String[]{Manifest.permission.WRITE_CONTACTS}, new PerMissionsFlow() {
             @Override
             public void onGranted() throws SecurityException {
                 presenter.onAddContact();
@@ -75,7 +75,7 @@ public class DemoFragment extends Fragment {
 
     @OnClick(R.id.takePicture)
     public void onPictureButtonClick() {
-        bus.post(new PermissionEvent(new String[]{Manifest.permission.CAMERA}, new PerMissionsFlow() {
+        bus.post(new PerMissionsEvent(new String[]{Manifest.permission.CAMERA}, new PerMissionsFlow() {
             @Override
             public void onGranted() throws SecurityException {
                 presenter.onTakePhoto();

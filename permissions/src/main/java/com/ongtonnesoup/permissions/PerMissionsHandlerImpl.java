@@ -2,16 +2,16 @@ package com.ongtonnesoup.permissions;
 
 import com.squareup.otto.Subscribe;
 
-public class PermissionHandlerImpl implements PermissionHandler {
+public class PerMissionsHandlerImpl implements PerMissionsHandler {
 
     private final PerMissions perMissions;
 
-    public PermissionHandlerImpl(PerMissions perMissions) {
+    public PerMissionsHandlerImpl(PerMissions perMissions) {
         this.perMissions = perMissions;
     }
 
     @Subscribe
-    public void onPerMissionsEvent(PermissionEvent event) {
+    public void onPerMissionsEvent(PerMissionsEvent event) {
         if (event != null) {
             handlePermissionRequest(event.permissions, event.flow);
         }

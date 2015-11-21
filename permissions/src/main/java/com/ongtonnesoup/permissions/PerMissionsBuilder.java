@@ -9,8 +9,8 @@ public class PerMissionsBuilder {
 
     private Context context;
     private Bus bus;
-    private PermissionHandler handler;
-    private PermissionResultHandler callback;
+    private PerMissionsHandler handler;
+    private PerMissionsResultHandler callback;
     private PerMissions permissionFrag;
 
     /**
@@ -46,7 +46,7 @@ public class PerMissionsBuilder {
      * @param handler
      * @return builder
      */
-    public PerMissionsBuilder handler(PermissionHandler handler) {
+    public PerMissionsBuilder handler(PerMissionsHandler handler) {
         return handler(handler, null);
     }
 
@@ -57,7 +57,7 @@ public class PerMissionsBuilder {
      * @param bus
      * @return builder
      */
-    private PerMissionsBuilder handler(PermissionHandler handler, Bus bus) {
+    private PerMissionsBuilder handler(PerMissionsHandler handler, Bus bus) {
         this.handler = handler;
         this.bus = bus;
         return this;
@@ -71,7 +71,7 @@ public class PerMissionsBuilder {
      * @param callback
      * @return builder
      */
-    public PerMissionsBuilder callback(PermissionResultHandler callback) {
+    public PerMissionsBuilder callback(PerMissionsResultHandler callback) {
         this.callback = callback;
         return this;
     }
@@ -87,11 +87,11 @@ public class PerMissionsBuilder {
         }
 
         if (handler == null) {
-            handler = new PermissionHandlerImpl(permissionFrag);
+            handler = new PerMissionsHandlerImpl(permissionFrag);
         }
 
         if (callback == null) {
-            callback = new PermissionResultHandlerImpl(context, context.getResources(), handler);
+            callback = new PerMissionsResultHandlerImpl(context, context.getResources(), handler);
         }
 
         return permissionFrag.bus(bus).handler(handler).callback(callback);

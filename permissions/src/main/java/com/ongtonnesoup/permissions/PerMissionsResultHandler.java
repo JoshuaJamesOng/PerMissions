@@ -1,7 +1,7 @@
 package com.ongtonnesoup.permissions;
 
 
-public interface PermissionResultHandler {
+public interface PerMissionsResultHandler {
 
     /**
      * Continue with requested action

@@ -17,8 +17,8 @@ public class PerMissions extends Fragment {
 
     private Bus bus;
     private HashMap<Integer, Runnable> flows;
-    private PermissionHandler handler;
-    private PermissionResultHandler callback;
+    private PerMissionsHandler handler;
+    private PerMissionsResultHandler callback;
 
     public PerMissions() {
         // Required empty public constructor
@@ -32,7 +32,7 @@ public class PerMissions extends Fragment {
      * @param handler
      * @return builder
      */
-    public PerMissions handler(PermissionHandler handler) {
+    public PerMissions handler(PerMissionsHandler handler) {
         this.handler = handler;
         return this;
     }
@@ -56,7 +56,7 @@ public class PerMissions extends Fragment {
      * @param callback
      * @return builder
      */
-    public PerMissions callback(PermissionResultHandler callback) {
+    public PerMissions callback(PerMissionsResultHandler callback) {
         this.callback = callback;
         return this;
     }
@@ -71,14 +71,14 @@ public class PerMissions extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (handler instanceof PermissionHandlerImpl && bus != null) {
+        if (handler instanceof PerMissionsHandlerImpl && bus != null) {
             bus.register(handler);
         }
     }
 
     @Override
     public void onPause() {
-        if (handler instanceof PermissionHandlerImpl && bus != null) {
+        if (handler instanceof PerMissionsHandlerImpl && bus != null) {
             bus.unregister(handler);
         }
         super.onPause();
