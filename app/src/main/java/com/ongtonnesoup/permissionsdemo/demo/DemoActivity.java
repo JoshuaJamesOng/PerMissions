@@ -3,6 +3,7 @@ package com.ongtonnesoup.permissionsdemo.demo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.ongtonnesoup.permissions.PerMissions;
 import com.ongtonnesoup.permissions.PerMissionsBuilder;
 import com.ongtonnesoup.permissionsdemo.R;
 import com.squareup.otto.Bus;
@@ -13,6 +14,7 @@ public class DemoActivity extends AppCompatActivity {
 
     @Inject
     Bus mBus;
+    private PerMissions mPerMissions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +22,7 @@ public class DemoActivity extends AppCompatActivity {
         setContentView(R.layout.demo_activity);
         ((DemoApplication) getApplication()).getComponent().inject(this);
 
-        new PerMissionsBuilder().init(this, this, mBus).build();
+        mPerMissions = new PerMissionsBuilder().init(this, getSupportFragmentManager(), mBus).build();
     }
 
     @Override

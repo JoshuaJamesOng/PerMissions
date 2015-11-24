@@ -2,6 +2,7 @@ package com.ongtonnesoup.permissions;
 
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.squareup.otto.Bus;
@@ -15,23 +16,27 @@ public class PerMissionsBuilder {
     private PerMissions permissionFrag;
 
     /**
-     * @param activity
+     * Use this for custom PerMissions handler and callback implementations
+     * @param context
+     * @param fragmentManager
      * @return
      */
-    public PerMissionsBuilder init(Context context, FragmentActivity activity) {
-        return init(context, activity, null);
+    public PerMissionsBuilder init(Context context, FragmentManager fragmentManager) {
+        return init(context, fragmentManager, null);
     }
 
     /**
-     * @param activity
+     * Use this for default PerMissions handler and callback implementations
+     * @param context
+     * @param fragmentManager
      * @param bus
      * @return
      */
-    public PerMissionsBuilder init(Context context, FragmentActivity activity, Bus bus) {
-        PerMissions frag = (PerMissions) activity.getSupportFragmentManager().findFragmentByTag(PerMissions.TAG);
+    public PerMissionsBuilder init(Context context, FragmentManager fragmentManager, Bus bus) {
+        PerMissions frag = (PerMissions) fragmentManager.findFragmentByTag(PerMissions.TAG);
         if (frag == null) {
             frag = new PerMissions();
-            activity.getSupportFragmentManager().beginTransaction().add(frag, PerMissions.TAG).commit();
+            fragmentManager.beginTransaction().add(frag, PerMissions.TAG).commit();
         }
         this.context = context;
         this.permissionFrag = frag;
