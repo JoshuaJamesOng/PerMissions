@@ -16,20 +16,25 @@
 
 package com.ongtonnesoup.permissions;
 
+import com.ongtonnesoup.permissions.flow.PerMissionsContinueFlow;
+import com.ongtonnesoup.permissions.flow.PerMissionsDeniedFlow;
+import com.ongtonnesoup.permissions.flow.PerMissionsFlows;
+
 public class PerMissionsEvent {
 
     public final String[] permissions;
-    public final Runnable flow;
+    public final PerMissionsFlows flows;
 
     /**
      * PermissionsEvent subscribed by the default PermissionHandler implementation
      *
-     * @param permissions Permissions to request
-     * @param flow        Code to run if the permissions are granted
+     * @param permissions  Permissions to request
+     * @param continueFlow Code to run if the permissions are granted
+     * @param deniedFlow   Code to run if the permissions are denied
      */
-    public PerMissionsEvent(String[] permissions, Runnable flow) {
+    public PerMissionsEvent(String[] permissions, PerMissionsContinueFlow continueFlow, PerMissionsDeniedFlow deniedFlow) {
         this.permissions = permissions;
-        this.flow = flow;
+        this.flows = new PerMissionsFlows(continueFlow, deniedFlow);
     }
 
 }

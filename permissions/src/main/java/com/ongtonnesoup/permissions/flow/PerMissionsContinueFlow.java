@@ -14,11 +14,11 @@
 * limitations under the License.
 */
 
-package com.ongtonnesoup.permissions;
+package com.ongtonnesoup.permissions.flow;
 
 import android.util.Log;
 
-public class PerMissionsFlow implements Runnable {
+public class PerMissionsContinueFlow implements Runnable {
 
     private static final String TAG = "PerMissionsFlow";
 

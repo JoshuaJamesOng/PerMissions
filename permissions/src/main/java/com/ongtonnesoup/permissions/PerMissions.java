@@ -22,6 +22,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
+import com.ongtonnesoup.permissions.flow.PerMissionsFlows;
 import com.squareup.otto.Bus;
 
 import java.util.Arrays;
@@ -34,7 +35,7 @@ public class PerMissions extends Fragment implements PerMissionsMessageHandlerHa
     public static final int EXPLAIN_PERMISSIONS = 11;
 
     private Bus bus;
-    private HashMap<Integer, Runnable> flows;
+    private HashMap<Integer, PerMissionsFlows> flows;
     private PerMissionsHandler handler;
     private PerMissionsResultHandler callback;
     private PerMissionsMessageHandler queue;
@@ -112,20 +113,20 @@ public class PerMissions extends Fragment implements PerMissionsMessageHandlerHa
      * Request permission or show explanations, if necessary
      *
      * @param permissions Permissions to request
-     * @param flow        Code to execute if granted
+     * @param flows       Code to execute if granted or denied
      */
-    public void getPermission(String[] permissions, Runnable flow, boolean isAfterExplanation) {
+    public void getPermission(String[] permissions, PerMissionsFlows flows, boolean isAfterExplanation) {
 
         if (PermissionUtil.hasSelfPermission(getActivity(), permissions)) {
             Log.d(TAG, "Permission request already granted");
-            callback.onPermissionGranted(permissions, flow);
+            callback.onPermissionGranted(permissions, flows.getContinueFlow());
         } else {
             String[] permissionsToRequest = PermissionUtil.deniedPermissions(getActivity(), permissions);
             if (PermissionUtil.showExplanation(getActivity(), permissions) && !isAfterExplanation) {
                 Log.d(TAG, "Permission request should show explanation");
-                callback.onPermissionExplain(permissionsToRequest, flow);
+                callback.onPermissionExplain(permissionsToRequest, flows);
             } else {
-                flows.put(Arrays.hashCode(permissionsToRequest), flow);
+                this.flows.put(Arrays.hashCode(permissionsToRequest), flows);
                 requestPermissions(permissionsToRequest, REQUEST_PERMISSIONS);
             }
 
@@ -154,15 +155,15 @@ public class PerMissions extends Fragment implements PerMissionsMessageHandlerHa
 
     @Override
     public void onRequestPermissionsResult(String[] permissions, int[] grantResults) {
+        PerMissionsFlows flows = this.flows.get(Arrays.hashCode(permissions));
+        this.flows.remove(Arrays.hashCode(permissions));
+
         if (PermissionUtil.verifyPermissions(grantResults)) {
             Log.d(TAG, "Permission request granted.");
-            Runnable flow = flows.get(Arrays.hashCode(permissions));
-            flows.remove(Arrays.hashCode(permissions));
-            callback.onPermissionGranted(permissions, flow);
+            callback.onPermissionGranted(permissions, flows.getContinueFlow());
         } else {
             Log.d(TAG, "Permission request was NOT granted.");
-            flows.remove(Arrays.hashCode(permissions));
-            callback.onPermissionDenied(PermissionUtil.deniedPermissions(permissions, grantResults));
+            callback.onPermissionDenied(PermissionUtil.deniedPermissions(permissions, grantResults), flows.getDeniedFlow());
         }
     }
 }

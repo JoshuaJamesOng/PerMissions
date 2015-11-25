@@ -9,8 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.ongtonnesoup.permissions.PerMissionsFlow;
 import com.ongtonnesoup.permissions.PerMissionsEvent;
+import com.ongtonnesoup.permissions.flow.PerMissionsContinueFlow;
+import com.ongtonnesoup.permissions.flow.PerMissionsDeniedFlow;
 import com.ongtonnesoup.permissionsdemo.R;
 import com.squareup.otto.Bus;
 
@@ -55,30 +56,42 @@ public class DemoFragment extends Fragment {
 
     @OnClick(R.id.viewContacts)
     public void onViewContactsButtonClick() {
-        bus.post(new PerMissionsEvent(new String[]{Manifest.permission.READ_CONTACTS}, new PerMissionsFlow() {
+        bus.post(new PerMissionsEvent(new String[]{Manifest.permission.READ_CONTACTS}, new PerMissionsContinueFlow() {
             @Override
             public void onGranted() throws SecurityException {
                 presenter.onViewContacts();
+            }
+        }, new PerMissionsDeniedFlow() {
+            @Override
+            public void onDenied() throws SecurityException {
             }
         }));
     }
 
     @OnClick(R.id.addContact)
     public void onContactButtonClick() {
-        bus.post(new PerMissionsEvent(new String[]{Manifest.permission.WRITE_CONTACTS}, new PerMissionsFlow() {
+        bus.post(new PerMissionsEvent(new String[]{Manifest.permission.WRITE_CONTACTS}, new PerMissionsContinueFlow() {
             @Override
             public void onGranted() throws SecurityException {
                 presenter.onAddContact();
+            }
+        }, new PerMissionsDeniedFlow() {
+            @Override
+            public void onDenied() throws SecurityException {
             }
         }));
     }
 
     @OnClick(R.id.takePicture)
     public void onPictureButtonClick() {
-        bus.post(new PerMissionsEvent(new String[]{Manifest.permission.CAMERA}, new PerMissionsFlow() {
+        bus.post(new PerMissionsEvent(new String[]{Manifest.permission.CAMERA}, new PerMissionsContinueFlow() {
             @Override
             public void onGranted() throws SecurityException {
                 presenter.onTakePhoto();
+            }
+        }, new PerMissionsDeniedFlow() {
+            @Override
+            public void onDenied() throws SecurityException {
             }
         }));
     }

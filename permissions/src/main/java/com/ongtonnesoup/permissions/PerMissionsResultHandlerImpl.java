@@ -21,6 +21,10 @@ import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.support.v4.app.FragmentManager;
 
+import com.ongtonnesoup.permissions.flow.PerMissionsContinueFlow;
+import com.ongtonnesoup.permissions.flow.PerMissionsDeniedFlow;
+import com.ongtonnesoup.permissions.flow.PerMissionsFlows;
+
 public class PerMissionsResultHandlerImpl implements PerMissionsResultHandler {
 
     private static final String TAG_DENIED = "PERMISSIONS_TAG_DIALOG_DENIED";
@@ -37,33 +41,35 @@ public class PerMissionsResultHandlerImpl implements PerMissionsResultHandler {
     }
 
     @Override
-    public void onPermissionGranted(String[] permissions, Runnable flow) {
+    public void onPermissionGranted(String[] permissions, PerMissionsContinueFlow flow) {
         if (flow != null) {
             flow.run();
         }
     }
 
     @Override
-    public void onPermissionDenied(final String[] permissions) {
+    public void onPermissionDenied(final String[] permissions, final PerMissionsDeniedFlow flow) {
         String title = resources.getString(R.string.permission_title_denied);
         String message = getDeniedString(permissions);
         PerMissionsDialogFragment dialog = PerMissionsDialogFragment.newInstance(title, message, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-
+                if (flow != null) {
+                    flow.run();
+                }
             }
         });
         dialog.show(fragmentManager, TAG_DENIED);
     }
 
     @Override
-    public void onPermissionExplain(final String[] permissions, final Runnable flow) {
+    public void onPermissionExplain(final String[] permissions, final PerMissionsFlows flows) {
         String title = resources.getString(R.string.permissions_title_explanation);
         String message = getExplanationString(permissions);
         PerMissionsDialogFragment dialog = PerMissionsDialogFragment.newInstance(title, message, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                handler.handlePermissionRequest(permissions, flow, true);
+                handler.handlePermissionRequest(permissions, flows, true);
             }
         });
         dialog.show(fragmentManager, TAG_EXPLAIN);

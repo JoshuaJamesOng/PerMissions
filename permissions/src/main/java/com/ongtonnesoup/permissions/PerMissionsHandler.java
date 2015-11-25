@@ -16,20 +16,22 @@
 
 package com.ongtonnesoup.permissions;
 
+import com.ongtonnesoup.permissions.flow.PerMissionsFlows;
+
 public interface PerMissionsHandler {
 
     /**
      * Request permissions or show explanations, if necessary
      *
      * @param permissions Permissions to request
-     * @param flow        Code to run if the permissions are granted
+     * @param flows       Code to run if the permissions are granted or denied
      */
-    void handlePermissionRequest(String[] permissions, Runnable flow);
+    void handlePermissionRequest(String[] permissions, PerMissionsFlows flows);
 
     /**
      * @param isAfterExplanation If true, will not bother showing explanation
-     * @see PerMissionsHandler#handlePermissionRequest(String[], Runnable)
+     * @see PerMissionsHandler#handlePermissionRequest(String[], PerMissionsFlows)
      */
-    void handlePermissionRequest(String[] permissions, Runnable flow, boolean isAfterExplanation);
+    void handlePermissionRequest(String[] permissions, PerMissionsFlows flows, boolean isAfterExplanation);
 
 }

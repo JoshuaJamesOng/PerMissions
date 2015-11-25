@@ -16,6 +16,7 @@
 
 package com.ongtonnesoup.permissions;
 
+import com.ongtonnesoup.permissions.flow.PerMissionsFlows;
 import com.squareup.otto.Subscribe;
 
 public class PerMissionsHandlerImpl implements PerMissionsHandler {
@@ -29,18 +30,18 @@ public class PerMissionsHandlerImpl implements PerMissionsHandler {
     @Subscribe
     public void onPerMissionsEvent(PerMissionsEvent event) {
         if (event != null) {
-            handlePermissionRequest(event.permissions, event.flow);
+            handlePermissionRequest(event.permissions, event.flows);
         }
     }
 
     @Override
-    public void handlePermissionRequest(String[] permissions, Runnable flow) {
-        perMissions.getPermission(permissions, flow, false);
+    public void handlePermissionRequest(String[] permissions, PerMissionsFlows flows) {
+        handlePermissionRequest(permissions, flows, false);
     }
 
     @Override
-    public void handlePermissionRequest(String[] permissions, Runnable flow, boolean isAfterExplanation) {
-        perMissions.getPermission(permissions, flow, isAfterExplanation);
+    public void handlePermissionRequest(String[] permissions, PerMissionsFlows flows, boolean isAfterExplanation) {
+        perMissions.getPermission(permissions, flows, isAfterExplanation);
     }
 
 }

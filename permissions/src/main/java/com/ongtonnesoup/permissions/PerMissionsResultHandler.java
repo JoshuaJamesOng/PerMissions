@@ -17,6 +17,10 @@
 package com.ongtonnesoup.permissions;
 
 
+import com.ongtonnesoup.permissions.flow.PerMissionsContinueFlow;
+import com.ongtonnesoup.permissions.flow.PerMissionsDeniedFlow;
+import com.ongtonnesoup.permissions.flow.PerMissionsFlows;
+
 public interface PerMissionsResultHandler {
 
     /**
@@ -25,22 +29,23 @@ public interface PerMissionsResultHandler {
      * @param permissions Permissions granted
      * @param flow        Code to run if the permissions are granted
      */
-    void onPermissionGranted(String[] permissions, final Runnable flow);
+    void onPermissionGranted(String[] permissions, final PerMissionsContinueFlow flow);
 
     /**
      * Show a dialog explaining why the action was not carried out
      *
      * @param permissions Permissions that were not granted
+     * @param deniedFlow  Code to run after the dialog has dismissed
      */
-    void onPermissionDenied(String[] permissions);
+    void onPermissionDenied(String[] permissions, final PerMissionsDeniedFlow deniedFlow);
 
     /**
      * Show a dialog explaining why the permission are required
      *
      * @param permissions Permission that need granting
-     * @param flow        Code to run if the permissions are granted
+     * @param flows       Code to run if the permissions are granted or denied
      */
-    void onPermissionExplain(String[] permissions, final Runnable flow);
+    void onPermissionExplain(String[] permissions, final PerMissionsFlows flows);
 
     /**
      * Gets string resource for explanation dialog
