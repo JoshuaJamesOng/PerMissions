@@ -21,16 +21,20 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 
 public class PerMissionsResultHandlerImpl implements PerMissionsResultHandler {
 
     private final Context context;
-    private final PerMissionsHandler handler;
     private final Resources resources;
+    private final PerMissionsHandler handler;
+    private final FragmentManager fragmentManager;
 
-    public PerMissionsResultHandlerImpl(Context context, Resources resources, PerMissionsHandler handler) {
+    public PerMissionsResultHandlerImpl(Context context, Resources resources, FragmentManager fragmentManager, PerMissionsHandler handler) {
         this.context = context;
         this.resources = resources;
+        this.fragmentManager = fragmentManager;
         this.handler = handler;
     }
 
@@ -43,33 +47,29 @@ public class PerMissionsResultHandlerImpl implements PerMissionsResultHandler {
 
     @Override
     public void onPermissionDenied(final String[] permissions) {
-        AlertDialog dialog = new AlertDialog.Builder(context).create();
-        dialog.setTitle(resources.getString(R.string.permission_title_denied));
-        dialog.setMessage(getDeniedString(permissions));
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.setButton(DialogInterface.BUTTON_POSITIVE, context.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+        String title = resources.getString(R.string.permission_title_denied);
+        String message = getDeniedString(permissions);
+        PerMissionsDialogFragment dialog = PerMissionsDialogFragment.newInstance(title, message, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
+
             }
         });
-        dialog.show();
+        dialog.show(fragmentManager, "TAG_1");
     }
 
     @Override
     public void onPermissionExplain(final String[] permissions, final Runnable flow) {
-        AlertDialog dialog = new AlertDialog.Builder(context).create();
-        dialog.setTitle(resources.getString(R.string.permissions_title_explanation));
-        dialog.setMessage(getExplanationString(permissions));
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.setButton(DialogInterface.BUTTON_POSITIVE, context.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+
+        String title = resources.getString(R.string.permissions_title_explanation);
+        String message = getExplanationString(permissions);
+        PerMissionsDialogFragment dialog = PerMissionsDialogFragment.newInstance(title, message, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
                 handler.handlePermissionRequest(permissions, flow, true);
             }
         });
-        dialog.show();
+        dialog.show(fragmentManager, "TAG_2");
     }
 
     private String getDeniedString(String[] permissions) {

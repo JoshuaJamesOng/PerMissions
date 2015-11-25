@@ -24,6 +24,7 @@ import com.squareup.otto.Bus;
 public class PerMissionsBuilder {
 
     private Context context;
+    private FragmentManager fragmentManager;
     private Bus bus;
     private PerMissionsHandler handler;
     private PerMissionsResultHandler callback;
@@ -53,6 +54,7 @@ public class PerMissionsBuilder {
             fragmentManager.beginTransaction().add(frag, PerMissions.TAG).commit();
         }
         this.context = context;
+        this.fragmentManager = fragmentManager;
         this.permissionFrag = frag;
         this.bus = bus;
         return this;
@@ -111,7 +113,7 @@ public class PerMissionsBuilder {
         }
 
         if (callback == null) {
-            callback = new PerMissionsResultHandlerImpl(context, context.getResources(), handler);
+            callback = new PerMissionsResultHandlerImpl(context, context.getResources(), fragmentManager, handler);
         }
 
         return permissionFrag.bus(bus).handler(handler).callback(callback);
