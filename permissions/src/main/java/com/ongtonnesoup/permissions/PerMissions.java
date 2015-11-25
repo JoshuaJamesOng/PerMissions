@@ -17,6 +17,7 @@
 package com.ongtonnesoup.permissions;
 
 import android.os.Bundle;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -26,15 +27,17 @@ import com.squareup.otto.Bus;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class PerMissions extends Fragment {
+public class PerMissions extends Fragment implements PerMissionsMessageHandlerHandler {
 
     public static final String TAG = "PerMissions";
-    private static final int REQUEST_PERMISSIONS = 10;
+    public static final int REQUEST_PERMISSIONS = 10;
+    public static final int EXPLAIN_PERMISSIONS = 11;
 
     private Bus bus;
     private HashMap<Integer, Runnable> flows;
     private PerMissionsHandler handler;
     private PerMissionsResultHandler callback;
+    private PerMissionsMessageHandler queue;
 
     public PerMissions() {
         // Required empty public constructor
@@ -82,6 +85,7 @@ public class PerMissions extends Fragment {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         flows = new HashMap<>();
+        queue = new PerMissionsMessageHandler(this);
     }
 
     @Override
@@ -90,14 +94,18 @@ public class PerMissions extends Fragment {
         if (handler instanceof PerMissionsHandlerImpl && bus != null) {
             bus.register(handler);
         }
+        queue.resume();
+        Log.d(TAG, "Resumed");
     }
 
     @Override
     public void onPause() {
+        queue.pause();
         if (handler instanceof PerMissionsHandlerImpl && bus != null) {
             bus.unregister(handler);
         }
         super.onPause();
+        Log.d(TAG, "Paused");
     }
 
     /**
@@ -135,19 +143,26 @@ public class PerMissions extends Fragment {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         if (requestCode == REQUEST_PERMISSIONS) {
-            if (PermissionUtil.verifyPermissions(grantResults)) {
-                Log.d(TAG, "Permission request granted.");
-                Runnable flow = flows.get(Arrays.hashCode(permissions));
-                flows.remove(Arrays.hashCode(permissions));
-                callback.onPermissionGranted(permissions, flow);
-            } else {
-                Log.d(TAG, "Permission request was NOT granted.");
-                flows.remove(Arrays.hashCode(permissions));
-                callback.onPermissionDenied(PermissionUtil.deniedPermissions(permissions, grantResults));
-            }
+            Message message = new Message();
+            message.what = requestCode;
+            message.setData(PerMissionsResultBundleHelper.makeBundle(permissions, grantResults));
+            queue.sendMessage(message);
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(String[] permissions, int[] grantResults) {
+        if (PermissionUtil.verifyPermissions(grantResults)) {
+            Log.d(TAG, "Permission request granted.");
+            Runnable flow = flows.get(Arrays.hashCode(permissions));
+            flows.remove(Arrays.hashCode(permissions));
+            callback.onPermissionGranted(permissions, flow);
+        } else {
+            Log.d(TAG, "Permission request was NOT granted.");
+            flows.remove(Arrays.hashCode(permissions));
+            callback.onPermissionDenied(PermissionUtil.deniedPermissions(permissions, grantResults));
+        }
+    }
 }

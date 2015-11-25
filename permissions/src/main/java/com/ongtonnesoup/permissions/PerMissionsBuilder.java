@@ -113,7 +113,7 @@ public class PerMissionsBuilder {
         }
 
         if (callback == null) {
-            callback = new PerMissionsResultHandlerImpl(context, context.getResources(), fragmentManager, handler);
+            callback = new PerMissionsResultHandlerImpl(context.getResources(), fragmentManager, handler);
         }
 
         return permissionFrag.bus(bus).handler(handler).callback(callback);

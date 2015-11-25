@@ -17,22 +17,20 @@
 package com.ongtonnesoup.permissions;
 
 import android.Manifest;
-import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 
 public class PerMissionsResultHandlerImpl implements PerMissionsResultHandler {
 
-    private final Context context;
+    private static final String TAG_DENIED = "PERMISSIONS_TAG_DIALOG_DENIED";
+    private static final String TAG_EXPLAIN = "PERMISSIONS_TAG_DIALOG_EXPLAIN";
+
     private final Resources resources;
     private final PerMissionsHandler handler;
     private final FragmentManager fragmentManager;
 
-    public PerMissionsResultHandlerImpl(Context context, Resources resources, FragmentManager fragmentManager, PerMissionsHandler handler) {
-        this.context = context;
+    public PerMissionsResultHandlerImpl(Resources resources, FragmentManager fragmentManager, PerMissionsHandler handler) {
         this.resources = resources;
         this.fragmentManager = fragmentManager;
         this.handler = handler;
@@ -55,12 +53,11 @@ public class PerMissionsResultHandlerImpl implements PerMissionsResultHandler {
 
             }
         });
-        dialog.show(fragmentManager, "TAG_1");
+        dialog.show(fragmentManager, TAG_DENIED);
     }
 
     @Override
     public void onPermissionExplain(final String[] permissions, final Runnable flow) {
-
         String title = resources.getString(R.string.permissions_title_explanation);
         String message = getExplanationString(permissions);
         PerMissionsDialogFragment dialog = PerMissionsDialogFragment.newInstance(title, message, new DialogInterface.OnClickListener() {
@@ -69,7 +66,7 @@ public class PerMissionsResultHandlerImpl implements PerMissionsResultHandler {
                 handler.handlePermissionRequest(permissions, flow, true);
             }
         });
-        dialog.show(fragmentManager, "TAG_2");
+        dialog.show(fragmentManager, TAG_EXPLAIN);
     }
 
     private String getDeniedString(String[] permissions) {
