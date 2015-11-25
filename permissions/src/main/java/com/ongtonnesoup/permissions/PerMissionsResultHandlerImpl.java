@@ -19,8 +19,10 @@ package com.ongtonnesoup.permissions;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.res.Resources;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 
+import com.ongtonnesoup.permissions.dialog.PerMissionsDialogBuilder;
 import com.ongtonnesoup.permissions.flow.PerMissionsContinueFlow;
 import com.ongtonnesoup.permissions.flow.PerMissionsDeniedFlow;
 import com.ongtonnesoup.permissions.flow.PerMissionsFlows;
@@ -33,11 +35,13 @@ public class PerMissionsResultHandlerImpl implements PerMissionsResultHandler {
     private final Resources resources;
     private final PerMissionsHandler handler;
     private final FragmentManager fragmentManager;
+    private final PerMissionsDialogBuilder dialogBuilder;
 
-    public PerMissionsResultHandlerImpl(Resources resources, FragmentManager fragmentManager, PerMissionsHandler handler) {
+    public PerMissionsResultHandlerImpl(Resources resources, FragmentManager fragmentManager, PerMissionsHandler handler, PerMissionsDialogBuilder dialogBuilder) {
         this.resources = resources;
         this.fragmentManager = fragmentManager;
         this.handler = handler;
+        this.dialogBuilder = dialogBuilder;
     }
 
     @Override
@@ -51,7 +55,7 @@ public class PerMissionsResultHandlerImpl implements PerMissionsResultHandler {
     public void onPermissionDenied(final String[] permissions, final PerMissionsDeniedFlow flow) {
         String title = resources.getString(R.string.permission_title_denied);
         String message = getDeniedString(permissions);
-        PerMissionsDialogFragment dialog = PerMissionsDialogFragment.newInstance(title, message, new DialogInterface.OnClickListener() {
+        DialogFragment dialog = dialogBuilder.build(title, message, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (flow != null) {
@@ -66,7 +70,7 @@ public class PerMissionsResultHandlerImpl implements PerMissionsResultHandler {
     public void onPermissionExplain(final String[] permissions, final PerMissionsFlows flows) {
         String title = resources.getString(R.string.permissions_title_explanation);
         String message = getExplanationString(permissions);
-        PerMissionsDialogFragment dialog = PerMissionsDialogFragment.newInstance(title, message, new DialogInterface.OnClickListener() {
+        DialogFragment dialog = dialogBuilder.build(title, message, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 handler.handlePermissionRequest(permissions, flows, true);

@@ -19,6 +19,8 @@ package com.ongtonnesoup.permissions;
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
 
+import com.ongtonnesoup.permissions.dialog.PerMissionsDialogBuilder;
+import com.ongtonnesoup.permissions.dialog.PerMissionsDialogBuilderImpl;
 import com.squareup.otto.Bus;
 
 public class PerMissionsBuilder {
@@ -29,9 +31,11 @@ public class PerMissionsBuilder {
     private PerMissionsHandler handler;
     private PerMissionsResultHandler callback;
     private PerMissions permissionFrag;
+    private PerMissionsDialogBuilder dialogBuilder;
 
     /**
      * Use this for custom PerMissions handler and callback implementations
+     *
      * @param context
      * @param fragmentManager
      * @return
@@ -42,6 +46,7 @@ public class PerMissionsBuilder {
 
     /**
      * Use this for default PerMissions handler and callback implementations
+     *
      * @param context
      * @param fragmentManager
      * @param bus
@@ -98,6 +103,11 @@ public class PerMissionsBuilder {
         return this;
     }
 
+    public PerMissionsBuilder dialogBuilder(PerMissionsDialogBuilder dialogBuilder) {
+        this.dialogBuilder = dialogBuilder;
+        return this;
+    }
+
     /**
      * Build PerMissions fragment
      *
@@ -112,8 +122,12 @@ public class PerMissionsBuilder {
             handler = new PerMissionsHandlerImpl(permissionFrag);
         }
 
+        if (dialogBuilder == null) {
+            dialogBuilder = new PerMissionsDialogBuilderImpl();
+        }
+
         if (callback == null) {
-            callback = new PerMissionsResultHandlerImpl(context.getResources(), fragmentManager, handler);
+            callback = new PerMissionsResultHandlerImpl(context.getResources(), fragmentManager, handler, dialogBuilder);
         }
 
         return permissionFrag.bus(bus).handler(handler).callback(callback);
