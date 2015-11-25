@@ -36,12 +36,16 @@ public class PerMissionsResultHandlerImpl implements PerMissionsResultHandler {
     private final PerMissionsHandler handler;
     private final FragmentManager fragmentManager;
     private final PerMissionsDialogBuilder dialogBuilder;
+    private final boolean disableExplanationDialogs;
+    private final boolean disableDeniedDialogs;
 
-    public PerMissionsResultHandlerImpl(Resources resources, FragmentManager fragmentManager, PerMissionsHandler handler, PerMissionsDialogBuilder dialogBuilder) {
+    public PerMissionsResultHandlerImpl(Resources resources, FragmentManager fragmentManager, PerMissionsHandler handler, PerMissionsDialogBuilder dialogBuilder, boolean disableExplanationDialogs, boolean disableDeniedDialogs) {
         this.resources = resources;
         this.fragmentManager = fragmentManager;
         this.handler = handler;
         this.dialogBuilder = dialogBuilder;
+        this.disableExplanationDialogs = disableExplanationDialogs;
+        this.disableDeniedDialogs = disableDeniedDialogs;
     }
 
     @Override
@@ -53,30 +57,40 @@ public class PerMissionsResultHandlerImpl implements PerMissionsResultHandler {
 
     @Override
     public void onPermissionDenied(final String[] permissions, final PerMissionsDeniedFlow flow) {
-        String title = resources.getString(R.string.permission_title_denied);
-        String message = getDeniedString(permissions);
-        DialogFragment dialog = dialogBuilder.build(title, message, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                if (flow != null) {
-                    flow.run();
-                }
+        if (disableDeniedDialogs) {
+            if (flow != null) {
+                flow.run();
             }
-        });
-        dialog.show(fragmentManager, TAG_DENIED);
+        } else {
+            String title = resources.getString(R.string.permission_title_denied);
+            String message = getDeniedString(permissions);
+            DialogFragment dialog = dialogBuilder.build(title, message, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    if (flow != null) {
+                        flow.run();
+                    }
+                }
+            });
+            dialog.show(fragmentManager, TAG_DENIED);
+        }
     }
 
     @Override
     public void onPermissionExplain(final String[] permissions, final PerMissionsFlows flows) {
-        String title = resources.getString(R.string.permissions_title_explanation);
-        String message = getExplanationString(permissions);
-        DialogFragment dialog = dialogBuilder.build(title, message, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                handler.handlePermissionRequest(permissions, flows, true);
-            }
-        });
-        dialog.show(fragmentManager, TAG_EXPLAIN);
+        if (disableExplanationDialogs) {
+            handler.handlePermissionRequest(permissions, flows, true);
+        } else {
+            String title = resources.getString(R.string.permissions_title_explanation);
+            String message = getExplanationString(permissions);
+            DialogFragment dialog = dialogBuilder.build(title, message, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    handler.handlePermissionRequest(permissions, flows, true);
+                }
+            });
+            dialog.show(fragmentManager, TAG_EXPLAIN);
+        }
     }
 
     private String getDeniedString(String[] permissions) {

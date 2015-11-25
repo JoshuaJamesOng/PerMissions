@@ -32,6 +32,8 @@ public class PerMissionsBuilder {
     private PerMissionsResultHandler callback;
     private PerMissions permissionFrag;
     private PerMissionsDialogBuilder dialogBuilder;
+    private boolean disableExplanationDialogs;
+    private boolean disableDeniedDialogs;
 
     /**
      * Use this for custom PerMissions handler and callback implementations
@@ -108,6 +110,16 @@ public class PerMissionsBuilder {
         return this;
     }
 
+    public PerMissionsBuilder disableExplanationDialogs() {
+        this.disableExplanationDialogs = true;
+        return this;
+    }
+
+    public PerMissionsBuilder disableDeniedDialogs() {
+        this.disableDeniedDialogs = true;
+        return this;
+    }
+
     /**
      * Build PerMissions fragment
      *
@@ -127,7 +139,7 @@ public class PerMissionsBuilder {
         }
 
         if (callback == null) {
-            callback = new PerMissionsResultHandlerImpl(context.getResources(), fragmentManager, handler, dialogBuilder);
+            callback = new PerMissionsResultHandlerImpl(context.getResources(), fragmentManager, handler, dialogBuilder, disableExplanationDialogs, disableDeniedDialogs);
         }
 
         return permissionFrag.bus(bus).handler(handler).callback(callback);
