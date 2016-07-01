@@ -1,19 +1,19 @@
-package com.ongtonnesoup.permissions;
+package com.ongtonnesoup.permissions.flow;
 
 import android.util.Log;
 
-public class PerMissionsFlow implements Runnable {
+public class PerMissionsDeniedFlow implements Runnable {
 
     private static final String TAG = "PerMissionsFlow";
 
-    public void onGranted() throws SecurityException {
+    public void onDenied() throws SecurityException {
         throw new UnsupportedOperationException();
     }
 
     @Override
     public void run() {
         try {
-            onGranted();
+            onDenied();
         } catch (SecurityException e) {
             Log.d(TAG, "Security exception");
         }

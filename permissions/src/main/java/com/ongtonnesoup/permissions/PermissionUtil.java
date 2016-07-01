@@ -1,5 +1,6 @@
 /*
 * Copyright 2015 The Android Open Source Project
+* Copyright 2015 Joshua Ong
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -12,6 +13,12 @@
 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 * See the License for the specific language governing permissions and
 * limitations under the License.
+*
+* Modifications:
+*  - Use ActivityCompat.checkSelfPermission
+*  - Added deniedPermissions() to return a list of non-granted permissions
+*  - Added deniedPermissions() to return denied permission from grant result
+*  - Added showExplanation()
 */
 
 package com.ongtonnesoup.permissions;
@@ -46,6 +53,9 @@ public abstract class PermissionUtil {
         return grantResults.length > 0;
     }
 
+    /**
+     * Returns array of non-granted permissions
+     */
     public static String[] deniedPermissions(Activity activity, String[] permissions) {
         // Verify that each required permission has been granted, otherwise return false.
         List<String> denied = new ArrayList<>();
@@ -58,6 +68,9 @@ public abstract class PermissionUtil {
         return denied.toArray(new String[denied.size()]);
     }
 
+    /**
+     * Returns array of denied permissions from grant results
+     */
     public static String[] deniedPermissions(String[] permissions, int[] grantResults) {
         // Verify that each required permission has been granted, otherwise return false.
         List<String> denied = new ArrayList<>();
